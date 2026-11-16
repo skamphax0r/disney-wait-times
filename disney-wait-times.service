@@ -1,0 +1,15 @@
+[Unit]
+Description=Disney Wait Times Display Box
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/disney-wait-times
+ExecStart=/usr/bin/python3 /opt/disney-wait-times/server.py
+Restart=always
+RestartSec=5
+Environment=PORT=8088
+
+[Install]
+WantedBy=multi-user.target
