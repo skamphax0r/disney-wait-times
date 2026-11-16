@@ -95,6 +95,22 @@ To run as a systemd service on Linux or inside an LXC container:
 
 ---
 
+## 🧪 Testing
+
+Run the full automated test suite locally:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+This validates:
+- API endpoint responses (`/api/health`, `/api/parks`, `/api/parks/<id>/waits`).
+- Queue-times data parser, stats calculations, and TTL caching.
+- Fallback to stale cache on upstream timeouts.
+- Frontend DOM elements and JavaScript syntax integrity.
+
+---
+
 ## 📜 License
 
 MIT License. See [LICENSE](LICENSE) for details.
