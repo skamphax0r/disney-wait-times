@@ -700,6 +700,123 @@
       outline: none;
     }
 
+    /* ========================================================
+       FIREWORKS VIEW (Live / 4K Spectacular Stream)
+       ======================================================== */
+    .fireworks-view-container {
+      width: 100%;
+      max-width: 1100px;
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    .fireworks-header-bar {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #121622;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 18px;
+      border-radius: 12px;
+    }
+
+    .fireworks-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .fireworks-title-group h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .fireworks-badge {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #f87171;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .fireworks-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .fireworks-select {
+      background: #1a2234;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .fireworks-player-box {
+      width: 100%;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 158, 11, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .fireworks-player-box iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .fireworks-info-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 4px 6px;
+    }
+
+    @keyframes fireworksGlow {
+      0% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.85); color: #fef08a; }
+      100% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.4); }
+    }
+
+    .mode-btn.showtime {
+      animation: fireworksGlow 2.5s infinite;
+      border-color: rgba(245, 158, 11, 0.6);
+    }
+
     /* Kiosk / Fullscreen Mode enhancements */
     body.is-fullscreen {
       padding: 0;
@@ -769,6 +886,9 @@
         </button>
         <button id="modeBoardBtn" class="mode-btn" title="Park Tip Board / Grid Mode">
           📋 <span>Board</span>
+        </button>
+        <button id="modeFireworksBtn" class="mode-btn" title="Nightly Fireworks Spectacular Feed">
+          🎆 <span>Fireworks</span>
         </button>
       </div>
 
@@ -851,6 +971,40 @@
       </div>
       <div id="boardGridContainer">
         <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- 3. FIREWORKS VIEW (Nightly Spectacular & Live Stream) -->
+    <div id="fireworksView" class="fireworks-view-container">
+      <div class="fireworks-header-bar">
+        <div class="fireworks-title-group">
+          <h2>🎆 <span id="fireworksShowTitle">Happily Ever After Fireworks</span></h2>
+          <span class="fireworks-badge"><span class="live-dot" style="background:#ef4444; width:6px; height:6px;"></span> 4K / Live Feed</span>
+        </div>
+        <div class="fireworks-controls">
+          <label for="fireworksFeedSelect" style="font-size: 12px; color: var(--text-muted);">Feed:</label>
+          <select id="fireworksFeedSelect" class="fireworks-select">
+            <option value="Gpf2aawJxUg">Magic Kingdom - Happily Ever After (4K)</option>
+            <option value="AxLjyn6gHRk">EPCOT - Luminous: The Symphony of Us (4K)</option>
+            <option value="hqsic77f-u8">Disneyland - Wondrous Journeys (4K)</option>
+            <option value="custom">Custom YouTube Video ID / Live URL...</option>
+          </select>
+          <button id="fireworksReturnBtn" class="mode-btn" style="background: #242f47; color: #fff;">✕ Back</button>
+        </div>
+      </div>
+
+      <div class="fireworks-player-box">
+        <iframe id="fireworksIframe"
+                src=""
+                title="Disney Fireworks Stream"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="fireworks-info-bar">
+        <span id="fireworksParkSubtitle">Walt Disney World Spectacular Stream</span>
+        <span>Tip: Press ⛶ for full-screen kiosk presentation</span>
       </div>
     </div>
   </main>
@@ -982,6 +1136,13 @@
     const settingBezel = document.getElementById('settingBezel');
     const settingFilter = document.getElementById('settingFilter');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const modeFireworksBtn = document.getElementById('modeFireworksBtn');
+    const fireworksView = document.getElementById('fireworksView');
+    const fireworksShowTitle = document.getElementById('fireworksShowTitle');
+    const fireworksParkSubtitle = document.getElementById('fireworksParkSubtitle');
+    const fireworksFeedSelect = document.getElementById('fireworksFeedSelect');
+    const fireworksIframe = document.getElementById('fireworksIframe');
+    const fireworksReturnBtn = document.getElementById('fireworksReturnBtn');
 
     // Initialize App
     async function init() {
@@ -1268,18 +1429,88 @@
       });
     }
 
+    const FIREWORKS_CONFIG = {
+      6: { id: 'Gpf2aawJxUg', title: 'Happily Ever After Fireworks', park: 'Magic Kingdom (Walt Disney World)' },
+      5: { id: 'AxLjyn6gHRk', title: 'Luminous: The Symphony of Us', park: 'EPCOT (Walt Disney World)' },
+      16: { id: 'hqsic77f-u8', title: 'Wondrous Journeys Fireworks', park: 'Disneyland Park (California)' },
+      17: { id: 'hqsic77f-u8', title: 'Disneyland Nighttime Spectacular', park: 'Disney California Adventure' },
+      default: { id: 'Gpf2aawJxUg', title: 'Happily Ever After Fireworks (4K)', park: 'Disney Parks' }
+    };
+
+    function syncFireworksFeedWithPark() {
+      const config = FIREWORKS_CONFIG[currentParkId] || FIREWORKS_CONFIG.default;
+      if (fireworksFeedSelect.value !== 'custom') {
+        fireworksFeedSelect.value = config.id;
+      }
+    }
+
+    function loadFireworksFeed(overrideId) {
+      const config = FIREWORKS_CONFIG[currentParkId] || FIREWORKS_CONFIG.default;
+      let selectedVal = overrideId || fireworksFeedSelect.value;
+      let videoId = selectedVal;
+
+      if (selectedVal === 'custom') {
+        const input = prompt('Enter YouTube Video ID or URL (e.g. Gpf2aawJxUg or live stream URL):');
+        if (input) {
+          const match = input.match(/(?:v=|\/embed\/|youtu\.be\/|\/v\/|^)([a-zA-Z0-9_-]{11})/);
+          videoId = match ? match[1] : input.trim();
+        } else {
+          videoId = config.id;
+          fireworksFeedSelect.value = videoId;
+        }
+      }
+
+      if (videoId === 'Gpf2aawJxUg') {
+        fireworksShowTitle.textContent = 'Happily Ever After Fireworks';
+        fireworksParkSubtitle.textContent = 'Magic Kingdom (Walt Disney World)';
+      } else if (videoId === 'AxLjyn6gHRk') {
+        fireworksShowTitle.textContent = 'Luminous: The Symphony of Us';
+        fireworksParkSubtitle.textContent = 'EPCOT (Walt Disney World)';
+      } else if (videoId === 'hqsic77f-u8') {
+        fireworksShowTitle.textContent = 'Wondrous Journeys Fireworks';
+        fireworksParkSubtitle.textContent = 'Disneyland Park (California)';
+      } else {
+        fireworksShowTitle.textContent = 'Disney Fireworks Stream';
+        fireworksParkSubtitle.textContent = `Feed ID: ${videoId}`;
+      }
+
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      if (fireworksIframe.src !== embedUrl) {
+        fireworksIframe.src = embedUrl;
+      }
+    }
+
     function switchMode(mode) {
       if (mode === 'box') {
         modeBoxBtn.classList.add('active');
         modeBoardBtn.classList.remove('active');
+        modeFireworksBtn.classList.remove('active');
         boxView.style.display = 'flex';
         boardView.style.display = 'none';
-      } else {
+        fireworksView.style.display = 'none';
+        if (fireworksIframe.src) {
+          fireworksIframe.src = '';
+        }
+      } else if (mode === 'board') {
         modeBoardBtn.classList.add('active');
         modeBoxBtn.classList.remove('active');
+        modeFireworksBtn.classList.remove('active');
         boxView.style.display = 'none';
         boardView.style.display = 'block';
+        fireworksView.style.display = 'none';
+        if (fireworksIframe.src) {
+          fireworksIframe.src = '';
+        }
         renderBoard();
+      } else if (mode === 'fireworks') {
+        modeFireworksBtn.classList.add('active');
+        modeBoxBtn.classList.remove('active');
+        modeBoardBtn.classList.remove('active');
+        boxView.style.display = 'none';
+        boardView.style.display = 'none';
+        fireworksView.style.display = 'flex';
+        syncFireworksFeedWithPark();
+        loadFireworksFeed();
       }
     }
 
@@ -1306,6 +1537,18 @@
 
         parkClockDisplay.textContent = timeStr;
         parkTimezoneLabel.textContent = tzAbbr ? `(${tzAbbr})` : '';
+
+        // Highlight fireworks button if it is showtime (~8:00 PM - 10:30 PM park time)
+        try {
+          const hour = parseInt(now.toLocaleTimeString('en-US', { timeZone: tz, hour: 'numeric', hour12: false }));
+          if (hour >= 20 && hour <= 22) {
+            modeFireworksBtn.classList.add('showtime');
+            modeFireworksBtn.title = '🎆 Showtime! Nightly Fireworks feed active';
+          } else {
+            modeFireworksBtn.classList.remove('showtime');
+            modeFireworksBtn.title = 'Nightly Fireworks Spectacular Feed';
+          }
+        } catch (e) {}
       };
       updateTime();
       parkClockInterval = setInterval(updateTime, 1000);
@@ -1332,6 +1575,9 @@
 
       modeBoxBtn.addEventListener('click', () => switchMode('box'));
       modeBoardBtn.addEventListener('click', () => switchMode('board'));
+      modeFireworksBtn.addEventListener('click', () => switchMode('fireworks'));
+      fireworksReturnBtn.addEventListener('click', () => switchMode('box'));
+      fireworksFeedSelect.addEventListener('change', () => loadFireworksFeed());
 
       btnNext.addEventListener('click', nextRide);
       btnPrev.addEventListener('click', prevRide);

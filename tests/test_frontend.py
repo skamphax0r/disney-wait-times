@@ -76,6 +76,11 @@ class TestFrontendIntegrity(unittest.TestCase):
             "btnPlayPause",
             "boardView",
             "boardGridContainer",
+            "modeFireworksBtn",
+            "fireworksView",
+            "fireworksFeedSelect",
+            "fireworksIframe",
+            "fireworksReturnBtn",
             "settingsModal",
             "closeSettingsBtn",
             "settingTimezone",
@@ -86,6 +91,14 @@ class TestFrontendIntegrity(unittest.TestCase):
         for element_id in required_ids:
             with self.subTest(element_id=element_id):
                 self.assertIn(element_id, self.parser.element_ids, f"Missing required element #{element_id}")
+
+    def test_fireworks_view_elements(self):
+        """Verify fireworks view and preset feeds exist."""
+        self.assertIn("modeFireworksBtn", self.parser.element_ids)
+        self.assertIn("fireworksIframe", self.parser.element_ids)
+        self.assertIn("Happily Ever After", self.html_content)
+        self.assertIn("Luminous", self.html_content)
+        self.assertIn("Wondrous Journeys", self.html_content)
 
     def test_timezone_default_cst(self):
         """Verify Central Time (America/Chicago) is the default configured timezone."""
