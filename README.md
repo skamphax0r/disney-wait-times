@@ -16,6 +16,11 @@ Inspired by physical subscription display boxes, this app brings the magic of Di
 - **📋 Park Tip Board Mode**:
   - Full park overview grid showing all lands, rides, operational statuses, and wait times.
   - Instant live search and filtering (*Open Only*, *Favorites Only*, *All*).
+- **🎆 Nightly Fireworks & Live Feed**:
+  - Dedicated fireworks feed viewer embedded directly on the board.
+  - Integrated 4K spectacular presets: Magic Kingdom's *Happily Ever After*, EPCOT's *Luminous*, and Disneyland's *Wondrous Journeys*.
+  - Support for custom live stream video IDs/URLs (e.g. YouTube live broadcasts from park streamers).
+  - Nightly "Showtime" visual indicator on the button during evening fireworks hours (8:00 PM – 10:30 PM park time).
 - **⏱️ Configurable Time Zones**:
   - Support for Central Time (CST/CDT), Eastern Time (EST/EDT), Mountain Time (MST/MDT), Pacific Time (PST/PDT), Alaska, Hawaii, Park Local Time, or Device Time.
   - Click-to-configure badge right on the clock header.
